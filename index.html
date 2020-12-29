@@ -90,12 +90,14 @@
 		var moto2 = new Moto('Yamaha', 'YBR', 80500.5, 160);
 
 		//Por último, de manera automatica al iniciar el programa, se ejecutan las funciones para detallar la información en consola
-		Vehiculo.lista();
-		console.log('=============================');
-		Vehiculo.filtros();
-		console.log('=============================');
-		Vehiculo.listaOrdenada();
-
+		window.addEventListener('load', function() {
+			Vehiculo.lista();
+			console.log('=============================');
+			Vehiculo.filtros();
+			console.log('=============================');
+			Vehiculo.listaOrdenada();
+		})
+		
 		// Documentación consultada: https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Intl/NumberFormat
 
 	</script>
