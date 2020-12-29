@@ -15,6 +15,54 @@
 				this.Modelo = modelo;
 				this.Precio = precio;
 			}
+			// Métodos para mostrar la información en la consola
+			static lista(){
+				for(var i=0; i<BD.length; i++){
+					var stringFila = '';
+					var precioUltimo;
+					Object.keys(BD[i]).forEach((key)=>{
+						if(key=='Precio'){
+							precioUltimo = key +': $'+ new Intl.NumberFormat("es-ES", {minimumFractionDigits: 2}).format(BD[i][key]);
+						}else{
+							stringFila += key +': '+ BD[i][key] +' // ';
+						}
+					});
+					stringFila += precioUltimo;
+					console.log(stringFila);
+				}
+			}
+			static filtros(){
+				var mayor = 0, menor = 9999999, contieneY, iMayor, iMenor;
+				for(var i=0; i<BD.length; i++){
+					if(BD[i].Precio > mayor){
+						mayor = BD[i].Precio;
+						iMayor = i;
+					}
+					if(BD[i].Precio < menor){
+						menor = BD[i].Precio;
+						iMenor = i;
+					}
+					if(BD[i].Modelo.indexOf('Y') != -1){
+						contieneY=i;
+					}
+				}
+				console.log('Vehículo más caro: '+ BD[iMayor].Marca +' '+ BD[iMayor].Modelo);
+				console.log('Vehículo más barato: '+ BD[iMenor].Marca +' '+ BD[iMenor].Modelo);
+				console.log('Vehículo que contiene en el modelo la letra ‘Y’: '
+					+ BD[contieneY].Marca +' '+ BD[contieneY].Modelo +' $'
+					+ new Intl.NumberFormat("es-ES", {minimumFractionDigits: 2}).format(BD[contieneY].Precio));
+			}
+			static listaOrdenada(){
+				BD.sort(function(a, b){
+			        if(a.Precio > b.Precio) return -1;
+			        if(a.Precio < b.Precio) return 1;
+			        return 0;
+			    });
+			    console.log('Vehículos ordenados por precio de mayor a menor:');
+			    BD.forEach((vehiculo)=>{
+			    	console.log(vehiculo.Marca +' '+ vehiculo.Modelo);
+			    });
+			}
 		}
 
 		// Clases Moto y Auto, heredan propiedades de Vehiculo
@@ -41,64 +89,12 @@
 		var auto2 = new Auto('Peugeot', '208', 250000, 5);
 		var moto2 = new Moto('Yamaha', 'YBR', 80500.5, 160);
 
-
-		// Funciones para mostrar la información en la consola
-		function lista(){
-			for(var i=0; i<BD.length; i++){
-				var stringFila = '';
-				var precioUltimo;
-				Object.keys(BD[i]).forEach((key)=>{
-					if(key=='Precio'){
-						precioUltimo = key +': $'+ new Intl.NumberFormat("es-ES", {minimumFractionDigits: 2}).format(BD[i][key]);
-					}else{
-						stringFila += key +': '+ BD[i][key] +' // ';
-					}
-				});
-				stringFila += precioUltimo;
-				console.log(stringFila);
-			}
-		}
-
-		function filtros(){
-			var mayor = 0, menor = 9999999, contieneY, iMayor, iMenor;
-			for(var i=0; i<BD.length; i++){
-				if(BD[i].Precio > mayor){
-					mayor = BD[i].Precio;
-					iMayor = i;
-				}
-				if(BD[i].Precio < menor){
-					menor = BD[i].Precio;
-					iMenor = i;
-				}
-				if(BD[i].Modelo.indexOf('Y') != -1){
-					contieneY=i;
-				}
-			}
-			console.log('Vehículo más caro: '+ BD[iMayor].Marca +' '+ BD[iMayor].Modelo);
-			console.log('Vehículo más barato: '+ BD[iMenor].Marca +' '+ BD[iMenor].Modelo);
-			console.log('Vehículo que contiene en el modelo la letra ‘Y’: '
-				+ BD[contieneY].Marca +' '+ BD[contieneY].Modelo +' $'
-				+ new Intl.NumberFormat("es-ES", {minimumFractionDigits: 2}).format(BD[contieneY].Precio));
-		}
-
-		function listaOrdenada(){
-			BD.sort(function(a, b){
-		        if(a.Precio > b.Precio) return -1;
-		        if(a.Precio < b.Precio) return 1;
-		        return 0;
-		    });
-		    console.log('Vehículos ordenados por precio de mayor a menor:');
-		    BD.forEach((vehiculo)=>{
-		    	console.log(vehiculo.Marca +' '+ vehiculo.Modelo);
-		    });
-		}
-
 		//Por último, de manera automatica al iniciar el programa, se ejecutan las funciones para detallar la información en consola
-		lista();
+		Vehiculo.lista();
 		console.log('=============================');
-		filtros();
+		Vehiculo.filtros();
 		console.log('=============================');
-		listaOrdenada();
+		Vehiculo.listaOrdenada();
 
 		// Documentación consultada: https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Intl/NumberFormat
 
